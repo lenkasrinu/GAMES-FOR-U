@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC GAMEZONE</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: #090914;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 6%;
+    background: #141426;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.logo {
+    color: #b17aff;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+.hero {
+    text-align: center;
+    padding: 65px 15px;
+    background: linear-gradient(135deg,#29134d,#102449,#090914);
+}
+
+.hero h1 { font-size: 36px; }
+.hero span { color: #b17aff; }
+
+button {
+    cursor: pointer;
+    border: none;
+    color: white;
+    background: #8546ed;
+    border-radius: 25px;
+    padding: 12px 22px;
+    font-weight: bold;
+}
+
+section { padding: 30px 6%; }
+
+.games {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap: 18px;
+}
+
+.card {
+    background: #19192e;
+    padding: 25px;
+    text-align: center;
+    border: 1px solid #34345a;
+    border-radius: 15px;
+}
+
+.game-icon { font-size: 50px; }
+
+#gamePage {
+    display: none;
+    text-align: center;
+    padding: 25px 12px;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+    margin: 20px;
+    font-size: 17px;
+}
+
+.stats span { color: #a77aff; }
+
+canvas {
+    background: #080e19;
+    border: 2px solid #8b50ff;
+    border-radius: 10px;
+    width: min(90vw, 360px);
+    height: min(90vw, 360px);
+    display: block;
+    margin: 15px auto;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: repeat(3,65px);
+    justify-content: center;
+    gap: 8px;
+    margin: 20px;
+}
+
+.controls button {
+    font-size: 22px;
+    padding: 13px;
+    border-radius: 12px;
+    background: #29204c;
+}
+
+footer {
+    background: #141426;
+    text-align: center;
+    padding: 22px;
+    color: #aaa;
+}
+
+#message {
+    color: #c49bff;
+    min-height: 24px;
+}
+
+@media(max-width:500px) {
+    .hero h1 { font-size: 28px; }
+    nav a { font-size: 13px; margin-left: 8px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🎮 SC GAMEZONE</div>
+    <nav>
+        <a href="#" onclick="home()">Home</a>
+        <a href="#games" onclick="home()">Games</a>
+    </nav>
+</header>
+
+<div id="homePage">
+
+    <div class="hero">
+        <h1>WELCOME TO <span>SC GAMEZONE</span></h1>
+        <p>Play. Explore. Challenge Yourself.</p>
+        <button onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">
+            EXPLORE GAMES
+        </button>
+    </div>
+
+    <section id="games">
+        <h2>🔥 Featured Games</h2>
+
+        <div class="games">
+
+            <div class="card">
+                <div class="game-icon">🐍</div>
+                <h3>Snake Game</h3>
+                <p>Eat. Grow. Survive!</p>
+                <button onclick="openGame()">PLAY NOW</button>
+            </div>
+
+            <div class="card">
+                <div class="game-icon">❌</div>
+                <h3>Tic Tac Toe</h3>
+                <p>Coming Soon</p>
+                <button onclick="alert('Coming Soon!')">PLAY NOW</button>
+            </div>
+
+            <div class="card">
+                <div class="game-icon">🚀</div>
+                <h3>Space Shooter</h3>
+                <p>Coming Soon</p>
+                <button onclick="alert('Coming Soon!')">PLAY NOW</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section>
+        <h2>About SC GAMEZONE</h2>
+        <p>Your gaming world. Built with creativity and AI.</p>
+    </section>
+
+</div>
+
+<div id="gamePage">
+
+    <h2>🐍 SNAKE GAME</h2>
+    <p>Eat the food and beat your high score!</p>
+
+    <div class="stats">
+        <div>Score: <span id="score">0</span></div>
+        <div>Best: <span id="best">0</span></div>
+    </div>
+
+    <canvas id="board" width="360" height="360"></canvas>
+
+    <h3 id="message">Press START to play!</h3>
+
+    <div>
+        <button onclick="startGame()">START</button>
+        <button onclick="pauseGame()">PAUSE</button>
+        <button onclick="restartGame()">RESTART</button>
+    </div>
+
+    <div class="controls">
+        <div></div>
+        <button onclick="changeDirection('UP')">⬆️</button>
+        <div></div>
+
+        <button onclick="changeDirection('LEFT')">⬅️</button>
+        <button onclick="changeDirection('DOWN')">⬇️</button>
+        <button onclick="changeDirection('RIGHT')">➡️</button>
+    </div>
+
+    <button onclick="home()">🏠 BACK TO HOME</button>
+
+</div>
+
+<footer>
+    © 2026 SC GAMEZONE | Created By You ❤️
+</footer>
+
+<script>
+
+const canvas = document.getElementById("board");
+const ctx = canvas.getContext("2d");
+
+const size = 18;
+const total = 20;
+
+let snake, food, direction, nextDirection;
+let score = 0;
+let timer = null;
+let running = false;
+let gameOver = false;
+
+let best = Number(localStorage.getItem("scSnakeBest")) || 0;
+document.getElementById("best").innerText = best;
+
+function openGame() {
+    document.getElementById("homePage").style.display = "none";
+    document.getElementById("gamePage").style.display = "block";
+    restartGame();
+    window.scrollTo(0,0);
+}
+
+function home() {
+    stopTimer();
+    running = false;
+    document.getElementById("gamePage").style.display = "none";
+    document.getElementById("homePage").style.display = "block";
+    window.scrollTo(0,0);
+}
+
+function stopTimer() {
+    if(timer) clearInterval(timer);
+    timer = null;
+}
+
+function restartGame() {
+    stopTimer();
+
+    snake = [
+        {x:10,y:10},
+        {x:9,y:10},
+        {x:8,y:10}
+    ];
+
+    direction = "RIGHT";
+    nextDirection = "RIGHT";
+    score = 0;
+    running = false;
+    gameOver = false;
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("message").innerText = "Press START to play!";
+
+    createFood();
+    draw();
+}
+
+function createFood() {
+    do {
+        food = {
+            x: Math.floor(Math.random()*total),
+            y: Math.floor(Math.random()*total)
+        };
+    } while(snake.some(part => part.x === food.x && part.y === food.y));
+}
+
+function draw() {
+    ctx.fillStyle = "#080e19";
+    ctx.fillRect(0,0,360,360);
+
+    ctx.strokeStyle = "#18253b";
+    for(let i=0;i<=360;i+=size) {
+        ctx.beginPath();
+        ctx.moveTo(i,0);
+        ctx.lineTo(i,360);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0,i);
+        ctx.lineTo(360,i);
+        ctx.stroke();
+    }
+
+    snake.forEach((part,index) => {
+        ctx.fillStyle = index === 0 ? "#baff65" : "#35d68a";
+        ctx.fillRect(part.x*size+1,part.y*size+1,size-2,size-2);
+    });
+
+    ctx.fillStyle = "#ff477e";
+    ctx.beginPath();
+    ctx.arc(food.x*size+9,food.y*size+9,7,0,Math.PI*2);
+    ctx.fill();
+}
+
+function startGame() {
+    if(running) return;
+
+    if(gameOver) restartGame();
+
+    running = true;
+    document.getElementById("message").innerText = "Game Started! 🎮";
+
+    timer = setInterval(update,150);
+}
+
+function pauseGame() {
+    if(!running) return;
+
+    running = false;
+    stopTimer();
+    document.getElementById("message").innerText = "Game Paused ⏸️";
+}
+
+function changeDirection(newDir) {
+    const opposite = {
+        UP:"DOWN",
+        DOWN:"UP",
+        LEFT:"RIGHT",
+        RIGHT:"LEFT"
+    };
+
+    if(newDir !== opposite[direction]) {
+        nextDirection = newDir;
+    }
+}
+
+function update() {
+    direction = nextDirection;
+
+    let head = {...snake[0]};
+
+    if(direction === "UP") head.y--;
+    if(direction === "DOWN") head.y++;
+    if(direction === "LEFT") head.x--;
+    if(direction === "RIGHT") head.x++;
+
+    if(head.x<0 || head.x>=total ||
+       head.y<0 || head.y>=total) {
+        endGame();
+        return;
+    }
+
+    let eating = head.x===food.x && head.y===food.y;
+
+    let body = eating ? snake : snake.slice(0,-1);
+
+    if(body.some(part=>part.x===head.x && part.y===head.y)) {
+        endGame();
+        return;
+    }
+
+    snake.unshift(head);
+
+    if(eating) {
+        score += 10;
+
+        document.getElementById("score").innerText = score;
+
+        if(score>best) {
+            best = score;
+            localStorage.setItem("scSnakeBest",best);
+            document.getElementById("best").innerText = best;
+        }
+
+        createFood();
+    } else {
+        snake.pop();
+    }
+
+    draw();
+}
+
+function endGame() {
+    stopTimer();
+    running = false;
+    gameOver = true;
+
+    document.getElementById("message").innerText =
+        "GAME OVER! Score: " + score + " 🏆";
+
+    draw();
+}
+
+document.addEventListener("keydown",function(e) {
+    const keys = {
+        ArrowUp:"UP",
+        ArrowDown:"DOWN",
+        ArrowLeft:"LEFT",
+        ArrowRight:"RIGHT"
+    };
+
+    if(keys[e.key]) {
+        e.preventDefault();
+        changeDirection(keys[e.key]);
+    }
+
+    if(e.code==="Space") {
+        e.preventDefault();
+        running ? pauseGame() : startGame();
+    }
+});
+
+restartGame();
+
+</script>
+
+</body>
+  </html>
+  
