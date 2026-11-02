@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,130 +7,101 @@
 <title>SC GAMEZONE</title>
 
 <style>
-* { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    background: #090914;
-    color: white;
-    font-family: Arial, sans-serif;
+*{box-sizing:border-box}
+body{
+ margin:0;background:#090914;color:white;
+ font-family:Arial,sans-serif
 }
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 6%;
-    background: #141426;
-    flex-wrap: wrap;
-    gap: 12px;
+header{
+ padding:18px 6%;background:#141426;
+ display:flex;justify-content:space-between;
+ align-items:center;flex-wrap:wrap;gap:12px
 }
-
-.logo {
-    color: #b17aff;
-    font-size: 23px;
-    font-weight: bold;
+.logo{font-size:23px;font-weight:bold;color:#b17aff}
+nav a{color:white;text-decoration:none;margin-left:15px}
+.hero{
+ text-align:center;padding:65px 15px;
+ background:linear-gradient(135deg,#29134d,#102449,#090914)
 }
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 15px;
+.hero h1{font-size:36px}
+.hero span{color:#b17aff}
+button,select{
+ cursor:pointer;border:0;border-radius:12px;
+ padding:12px 18px;font-weight:bold
 }
-
-.hero {
-    text-align: center;
-    padding: 65px 15px;
-    background: linear-gradient(135deg,#29134d,#102449,#090914);
+button{background:#8546ed;color:white}
+button:hover{filter:brightness(1.2)}
+section{padding:30px 6%}
+.games{
+ display:grid;grid-template-columns:
+ repeat(auto-fit,minmax(200px,1fr));gap:18px
 }
-
-.hero h1 { font-size: 36px; }
-.hero span { color: #b17aff; }
-
-button {
-    cursor: pointer;
-    border: none;
-    color: white;
-    background: #8546ed;
-    border-radius: 25px;
-    padding: 12px 22px;
-    font-weight: bold;
+.card{
+ background:#19192e;padding:25px;text-align:center;
+ border:1px solid #34345a;border-radius:15px
 }
-
-section { padding: 30px 6%; }
-
-.games {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-    gap: 18px;
+.game-icon{font-size:50px}
+.card p{color:#aaa}
+.game-page{display:none;text-align:center;padding:25px 12px}
+.game-page h2{color:#c29aff}
+footer{
+ background:#141426;text-align:center;
+ padding:22px;color:#aaa
 }
-
-.card {
-    background: #19192e;
-    padding: 25px;
-    text-align: center;
-    border: 1px solid #34345a;
-    border-radius: 15px;
+.back{background:#292947;margin:10px}
+.stats{
+ display:flex;justify-content:center;
+ gap:30px;margin:18px;flex-wrap:wrap
 }
+.stats span{color:#b17aff;font-weight:bold}
 
-.game-icon { font-size: 50px; }
-
-#gamePage {
-    display: none;
-    text-align: center;
-    padding: 25px 12px;
+/* SNAKE */
+#snakeCanvas{
+ background:#080e19;border:2px solid #8b50ff;
+ border-radius:10px;width:min(90vw,360px);
+ height:min(90vw,360px);display:block;margin:15px auto
 }
-
-.stats {
-    display: flex;
-    justify-content: center;
-    gap: 35px;
-    margin: 20px;
-    font-size: 17px;
+.controls{
+ display:grid;grid-template-columns:repeat(3,65px);
+ justify-content:center;gap:8px;margin:20px
 }
+.controls button{font-size:22px;padding:13px;background:#29204c}
 
-.stats span { color: #a77aff; }
-
-canvas {
-    background: #080e19;
-    border: 2px solid #8b50ff;
-    border-radius: 10px;
-    width: min(90vw, 360px);
-    height: min(90vw, 360px);
-    display: block;
-    margin: 15px auto;
+/* TIC TAC TOE */
+.ttt-settings{
+ display:flex;justify-content:center;gap:12px;
+ flex-wrap:wrap;margin:20px auto
 }
-
-.controls {
-    display: grid;
-    grid-template-columns: repeat(3,65px);
-    justify-content: center;
-    gap: 8px;
-    margin: 20px;
+.ttt-settings select{
+ background:#29204c;color:white;border:1px solid #7650b5
 }
-
-.controls button {
-    font-size: 22px;
-    padding: 13px;
-    border-radius: 12px;
-    background: #29204c;
+.board{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:9px;width:min(88vw,350px);
+ margin:20px auto
 }
-
-footer {
-    background: #141426;
-    text-align: center;
-    padding: 22px;
-    color: #aaa;
+.cell{
+ aspect-ratio:1;background:#1b1b35;
+ border:2px solid #7043aa;border-radius:15px;
+ font-size:clamp(38px,12vw,65px);
+ color:#c39aff;display:flex;
+ justify-content:center;align-items:center
 }
-
-#message {
-    color: #c49bff;
-    min-height: 24px;
+.cell:disabled{opacity:1;cursor:default}
+#tttMessage{color:#d0b4ff;min-height:26px}
+.score-box{
+ display:flex;justify-content:center;
+ gap:15px;flex-wrap:wrap;margin:15px
 }
+.score-box div{
+ background:#19192e;border:1px solid #34345a;
+ padding:12px 20px;border-radius:12px
+}
+.small{font-size:13px;color:#aaa}
 
-@media(max-width:500px) {
-    .hero h1 { font-size: 28px; }
-    nav a { font-size: 13px; margin-left: 8px; }
+@media(max-width:500px){
+ .hero h1{font-size:28px}
+ nav a{font-size:13px;margin-left:8px}
 }
 </style>
 </head>
@@ -137,305 +109,441 @@ footer {
 <body>
 
 <header>
-    <div class="logo">🎮 SC GAMEZONE</div>
-    <nav>
-        <a href="#" onclick="home()">Home</a>
-        <a href="#games" onclick="home()">Games</a>
-    </nav>
+ <div class="logo">🎮 SC GAMEZONE</div>
+ <nav>
+  <a href="#" onclick="home()">Home</a>
+  <a href="#games" onclick="home()">Games</a>
+ </nav>
 </header>
 
 <div id="homePage">
 
-    <div class="hero">
-        <h1>WELCOME TO <span>SC GAMEZONE</span></h1>
-        <p>Play. Explore. Challenge Yourself.</p>
-        <button onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">
-            EXPLORE GAMES
-        </button>
-    </div>
+ <div class="hero">
+  <h1>WELCOME TO <span>SC GAMEZONE</span></h1>
+  <p>Play. Explore. Challenge Yourself.</p>
+  <button onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">
+   EXPLORE GAMES
+  </button>
+ </div>
 
-    <section id="games">
-        <h2>🔥 Featured Games</h2>
+ <section id="games">
+  <h2>🔥 Our Games</h2>
+  <div class="games">
 
-        <div class="games">
+   <div class="card">
+    <div class="game-icon">🐍</div>
+    <h3>Snake Game</h3>
+    <p>Eat. Grow. Survive!</p>
+    <button onclick="openGame('snakePage')">PLAY NOW</button>
+   </div>
 
-            <div class="card">
-                <div class="game-icon">🐍</div>
-                <h3>Snake Game</h3>
-                <p>Eat. Grow. Survive!</p>
-                <button onclick="openGame()">PLAY NOW</button>
-            </div>
+   <div class="card">
+    <div class="game-icon">❌⭕</div>
+    <h3>Tic Tac Toe</h3>
+    <p>Challenge our AI!</p>
+    <button onclick="openGame('tttPage')">PLAY NOW</button>
+   </div>
 
-            <div class="card">
-                <div class="game-icon">❌</div>
-                <h3>Tic Tac Toe</h3>
-                <p>Coming Soon</p>
-                <button onclick="alert('Coming Soon!')">PLAY NOW</button>
-            </div>
+   <div class="card">
+    <div class="game-icon">🚀</div>
+    <h3>Space Shooter</h3>
+    <p>Coming Soon</p>
+    <button onclick="alert('Coming Soon!')">COMING SOON</button>
+   </div>
 
-            <div class="card">
-                <div class="game-icon">🚀</div>
-                <h3>Space Shooter</h3>
-                <p>Coming Soon</p>
-                <button onclick="alert('Coming Soon!')">PLAY NOW</button>
-            </div>
+   <div class="card">
+    <div class="game-icon">🏎️</div>
+    <h3>Car Racing</h3>
+    <p>Coming Soon</p>
+    <button onclick="alert('Coming Soon!')">COMING SOON</button>
+   </div>
 
-        </div>
-    </section>
+  </div>
+ </section>
 
-    <section>
-        <h2>About SC GAMEZONE</h2>
-        <p>Your gaming world. Built with creativity and AI.</p>
-    </section>
-
+ <section>
+  <h2>About SC GAMEZONE</h2>
+  <p>Your gaming world. Built with creativity and AI.</p>
+ </section>
 </div>
 
-<div id="gamePage">
+<!-- SNAKE GAME -->
 
-    <h2>🐍 SNAKE GAME</h2>
-    <p>Eat the food and beat your high score!</p>
+<div id="snakePage" class="game-page">
+ <h2>🐍 SNAKE GAME</h2>
+ <p>Eat the food and beat your high score!</p>
 
-    <div class="stats">
-        <div>Score: <span id="score">0</span></div>
-        <div>Best: <span id="best">0</span></div>
-    </div>
+ <div class="stats">
+  <div>Score: <span id="snakeScore">0</span></div>
+  <div>Best: <span id="snakeBest">0</span></div>
+ </div>
 
-    <canvas id="board" width="360" height="360"></canvas>
+ <canvas id="snakeCanvas" width="360" height="360"></canvas>
+ <h3 id="snakeMessage">Press START to play!</h3>
 
-    <h3 id="message">Press START to play!</h3>
+ <button onclick="startSnake()">START</button>
+ <button onclick="pauseSnake()">PAUSE</button>
+ <button onclick="restartSnake()">RESTART</button>
 
-    <div>
-        <button onclick="startGame()">START</button>
-        <button onclick="pauseGame()">PAUSE</button>
-        <button onclick="restartGame()">RESTART</button>
-    </div>
+ <div class="controls">
+  <div></div><button onclick="snakeDirection('UP')">⬆️</button><div></div>
+  <button onclick="snakeDirection('LEFT')">⬅️</button>
+  <button onclick="snakeDirection('DOWN')">⬇️</button>
+  <button onclick="snakeDirection('RIGHT')">➡️</button>
+ </div>
 
-    <div class="controls">
-        <div></div>
-        <button onclick="changeDirection('UP')">⬆️</button>
-        <div></div>
-
-        <button onclick="changeDirection('LEFT')">⬅️</button>
-        <button onclick="changeDirection('DOWN')">⬇️</button>
-        <button onclick="changeDirection('RIGHT')">➡️</button>
-    </div>
-
-    <button onclick="home()">🏠 BACK TO HOME</button>
-
+ <button class="back" onclick="home()">🏠 BACK TO HOME</button>
 </div>
 
-<footer>
-    © 2026 SC GAMEZONE | Created By You ❤️
-</footer>
+<!-- TIC TAC TOE GAME -->
+
+<div id="tttPage" class="game-page">
+
+ <h2>❌ TIC TAC TOE ⭕</h2>
+ <p>Choose your game mode and challenge yourself!</p>
+
+ <div class="ttt-settings">
+  <select id="gameMode" onchange="newTTT()">
+   <option value="ai">🤖 Player vs AI</option>
+   <option value="pvp">👥 Player vs Player</option>
+  </select>
+
+  <select id="difficulty">
+   <option value="easy">Easy AI</option>
+   <option value="medium">Medium AI</option>
+   <option value="hard">Hard AI</option>
+  </select>
+ </div>
+
+ <div class="score-box">
+  <div>❌ Player X<br><strong id="xScore">0</strong></div>
+  <div>⭕ Player O / AI<br><strong id="oScore">0</strong></div>
+  <div>Draws<br><strong id="drawScore">0</strong></div>
+ </div>
+
+ <h3 id="tttMessage">Player X's turn</h3>
+
+ <div class="board" id="board">
+  <button class="cell" onclick="playCell(0)"></button>
+  <button class="cell" onclick="playCell(1)"></button>
+  <button class="cell" onclick="playCell(2)"></button>
+  <button class="cell" onclick="playCell(3)"></button>
+  <button class="cell" onclick="playCell(4)"></button>
+  <button class="cell" onclick="playCell(5)"></button>
+  <button class="cell" onclick="playCell(6)"></button>
+  <button class="cell" onclick="playCell(7)"></button>
+  <button class="cell" onclick="playCell(8)"></button>
+ </div>
+
+ <button onclick="newTTT()">🔄 NEW GAME</button>
+ <button onclick="resetScores()">RESET SCORES</button>
+
+ <p class="small">Player X always starts. In AI mode, you play X.</p>
+
+ <button class="back" onclick="home()">🏠 BACK TO HOME</button>
+</div>
+
+<footer>© 2026 SC GAMEZONE | Created By You ❤️</footer>
 
 <script>
 
-const canvas = document.getElementById("board");
-const ctx = canvas.getContext("2d");
+// WEBSITE NAVIGATION
 
-const size = 18;
-const total = 20;
-
-let snake, food, direction, nextDirection;
-let score = 0;
-let timer = null;
-let running = false;
-let gameOver = false;
-
-let best = Number(localStorage.getItem("scSnakeBest")) || 0;
-document.getElementById("best").innerText = best;
-
-function openGame() {
-    document.getElementById("homePage").style.display = "none";
-    document.getElementById("gamePage").style.display = "block";
-    restartGame();
-    window.scrollTo(0,0);
+function openGame(id){
+ document.getElementById("homePage").style.display="none";
+ document.querySelectorAll(".game-page").forEach(p=>p.style.display="none");
+ document.getElementById(id).style.display="block";
+ window.scrollTo(0,0);
+ if(id==="snakePage")restartSnake();
+ if(id==="tttPage")newTTT();
 }
 
-function home() {
-    stopTimer();
-    running = false;
-    document.getElementById("gamePage").style.display = "none";
-    document.getElementById("homePage").style.display = "block";
-    window.scrollTo(0,0);
+function home(){
+ stopSnake();
+ document.getElementById("homePage").style.display="block";
+ document.querySelectorAll(".game-page").forEach(p=>p.style.display="none");
+ window.scrollTo(0,0);
 }
 
-function stopTimer() {
-    if(timer) clearInterval(timer);
-    timer = null;
+// SNAKE GAME
+
+const sc=document.getElementById("snakeCanvas");
+const sx=sc.getContext("2d");
+const cellSize=18;
+let snake,food,dir,nextDir,snakePoints=0;
+let snakeTimer=null,snakeRunning=false,snakeOver=false;
+let snakeRecord=Number(localStorage.getItem("scSnakeBest"))||0;
+document.getElementById("snakeBest").textContent=snakeRecord;
+
+function stopSnake(){
+ if(snakeTimer)clearInterval(snakeTimer);
+ snakeTimer=null;
+ snakeRunning=false;
 }
 
-function restartGame() {
-    stopTimer();
-
-    snake = [
-        {x:10,y:10},
-        {x:9,y:10},
-        {x:8,y:10}
-    ];
-
-    direction = "RIGHT";
-    nextDirection = "RIGHT";
-    score = 0;
-    running = false;
-    gameOver = false;
-
-    document.getElementById("score").innerText = score;
-    document.getElementById("message").innerText = "Press START to play!";
-
-    createFood();
-    draw();
+function restartSnake(){
+ stopSnake();
+ snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];
+ dir="RIGHT";nextDir="RIGHT";
+ snakePoints=0;snakeOver=false;
+ document.getElementById("snakeScore").textContent=0;
+ document.getElementById("snakeMessage").textContent="Press START to play!";
+ makeFood();drawSnake();
 }
 
-function createFood() {
-    do {
-        food = {
-            x: Math.floor(Math.random()*total),
-            y: Math.floor(Math.random()*total)
-        };
-    } while(snake.some(part => part.x === food.x && part.y === food.y));
+function makeFood(){
+ do{
+  food={x:Math.floor(Math.random()*20),y:Math.floor(Math.random()*20)};
+ }while(snake.some(p=>p.x===food.x&&p.y===food.y));
 }
 
-function draw() {
-    ctx.fillStyle = "#080e19";
-    ctx.fillRect(0,0,360,360);
-
-    ctx.strokeStyle = "#18253b";
-    for(let i=0;i<=360;i+=size) {
-        ctx.beginPath();
-        ctx.moveTo(i,0);
-        ctx.lineTo(i,360);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(0,i);
-        ctx.lineTo(360,i);
-        ctx.stroke();
-    }
-
-    snake.forEach((part,index) => {
-        ctx.fillStyle = index === 0 ? "#baff65" : "#35d68a";
-        ctx.fillRect(part.x*size+1,part.y*size+1,size-2,size-2);
-    });
-
-    ctx.fillStyle = "#ff477e";
-    ctx.beginPath();
-    ctx.arc(food.x*size+9,food.y*size+9,7,0,Math.PI*2);
-    ctx.fill();
+function drawSnake(){
+ sx.fillStyle="#080e19";
+ sx.fillRect(0,0,360,360);
+ sx.strokeStyle="#18253b";
+ for(let i=0;i<=360;i+=18){
+  sx.beginPath();sx.moveTo(i,0);sx.lineTo(i,360);sx.stroke();
+  sx.beginPath();sx.moveTo(0,i);sx.lineTo(360,i);sx.stroke();
+ }
+ snake.forEach((p,i)=>{
+  sx.fillStyle=i===0?"#baff65":"#35d68a";
+  sx.fillRect(p.x*18+1,p.y*18+1,16,16);
+ });
+ sx.fillStyle="#ff477e";
+ sx.beginPath();sx.arc(food.x*18+9,food.y*18+9,7,0,Math.PI*2);sx.fill();
 }
 
-function startGame() {
-    if(running) return;
-
-    if(gameOver) restartGame();
-
-    running = true;
-    document.getElementById("message").innerText = "Game Started! 🎮";
-
-    timer = setInterval(update,150);
+function startSnake(){
+ if(snakeRunning)return;
+ if(snakeOver)restartSnake();
+ snakeRunning=true;
+ document.getElementById("snakeMessage").textContent="Game Started!";
+ snakeTimer=setInterval(updateSnake,150);
 }
 
-function pauseGame() {
-    if(!running) return;
-
-    running = false;
-    stopTimer();
-    document.getElementById("message").innerText = "Game Paused ⏸️";
+function pauseSnake(){
+ if(!snakeRunning)return;
+ stopSnake();
+ document.getElementById("snakeMessage").textContent="Game Paused!";
 }
 
-function changeDirection(newDir) {
-    const opposite = {
-        UP:"DOWN",
-        DOWN:"UP",
-        LEFT:"RIGHT",
-        RIGHT:"LEFT"
-    };
-
-    if(newDir !== opposite[direction]) {
-        nextDirection = newDir;
-    }
+function snakeDirection(d){
+ const opposite={UP:"DOWN",DOWN:"UP",LEFT:"RIGHT",RIGHT:"LEFT"};
+ if(d!==opposite[dir])nextDir=d;
 }
 
-function update() {
-    direction = nextDirection;
+function updateSnake(){
+ dir=nextDir;
+ let h={...snake[0]};
+ if(dir==="UP")h.y--;
+ if(dir==="DOWN")h.y++;
+ if(dir==="LEFT")h.x--;
+ if(dir==="RIGHT")h.x++;
 
-    let head = {...snake[0]};
+ let eating=h.x===food.x&&h.y===food.y;
+ let body=eating?snake:snake.slice(0,-1);
 
-    if(direction === "UP") head.y--;
-    if(direction === "DOWN") head.y++;
-    if(direction === "LEFT") head.x--;
-    if(direction === "RIGHT") head.x++;
+ if(h.x<0||h.x>=20||h.y<0||h.y>=20||
+ body.some(p=>p.x===h.x&&p.y===h.y)){
+  stopSnake();snakeOver=true;
+  document.getElementById("snakeMessage").textContent="GAME OVER! Score: "+snakePoints;
+  return;
+ }
 
-    if(head.x<0 || head.x>=total ||
-       head.y<0 || head.y>=total) {
-        endGame();
-        return;
-    }
-
-    let eating = head.x===food.x && head.y===food.y;
-
-    let body = eating ? snake : snake.slice(0,-1);
-
-    if(body.some(part=>part.x===head.x && part.y===head.y)) {
-        endGame();
-        return;
-    }
-
-    snake.unshift(head);
-
-    if(eating) {
-        score += 10;
-
-        document.getElementById("score").innerText = score;
-
-        if(score>best) {
-            best = score;
-            localStorage.setItem("scSnakeBest",best);
-            document.getElementById("best").innerText = best;
-        }
-
-        createFood();
-    } else {
-        snake.pop();
-    }
-
-    draw();
+ snake.unshift(h);
+ if(eating){
+  snakePoints+=10;
+  document.getElementById("snakeScore").textContent=snakePoints;
+  if(snakePoints>snakeRecord){
+   snakeRecord=snakePoints;
+   localStorage.setItem("scSnakeBest",snakeRecord);
+   document.getElementById("snakeBest").textContent=snakeRecord;
+  }
+  makeFood();
+ }else snake.pop();
+ drawSnake();
 }
 
-function endGame() {
-    stopTimer();
-    running = false;
-    gameOver = true;
-
-    document.getElementById("message").innerText =
-        "GAME OVER! Score: " + score + " 🏆";
-
-    draw();
-}
-
-document.addEventListener("keydown",function(e) {
-    const keys = {
-        ArrowUp:"UP",
-        ArrowDown:"DOWN",
-        ArrowLeft:"LEFT",
-        ArrowRight:"RIGHT"
-    };
-
-    if(keys[e.key]) {
-        e.preventDefault();
-        changeDirection(keys[e.key]);
-    }
-
-    if(e.code==="Space") {
-        e.preventDefault();
-        running ? pauseGame() : startGame();
-    }
+document.addEventListener("keydown",e=>{
+ const keys={ArrowUp:"UP",ArrowDown:"DOWN",ArrowLeft:"LEFT",ArrowRight:"RIGHT"};
+ if(document.getElementById("snakePage").style.display==="block"&&keys[e.key]){
+  e.preventDefault();snakeDirection(keys[e.key]);
+ }
 });
 
-restartGame();
+// TIC TAC TOE
+
+const cells=[...document.querySelectorAll(".cell")];
+let ttt=Array(9).fill("");
+let turn="X",finished=false,aiThinking=false;
+let scores={X:0,O:0,D:0};
+let aiTimeout=null;
+
+function newTTT(){
+ clearTimeout(aiTimeout);
+ ttt=Array(9).fill("");
+ turn="X";finished=false;aiThinking=false;
+ document.getElementById("difficulty").disabled=
+ document.getElementById("gameMode").value==="pvp";
+ drawTTT();
+ message("Player X's turn");
+}
+
+function drawTTT(){
+ cells.forEach((c,i)=>{
+  c.textContent=ttt[i];
+  c.style.color=ttt[i]==="X"?"#bd91ff":"#55e6d0";
+  c.disabled=finished||aiThinking||ttt[i]!=="";
+ });
+ document.getElementById("xScore").textContent=scores.X;
+ document.getElementById("oScore").textContent=scores.O;
+ document.getElementById("drawScore").textContent=scores.D;
+}
+
+function message(txt){
+ document.getElementById("tttMessage").textContent=txt;
+}
+
+function winner(b){
+ const lines=[
+ [0,1,2],[3,4,5],[6,7,8],
+ [0,3,6],[1,4,7],[2,5,8],
+ [0,4,8],[2,4,6]
+ ];
+ for(const line of lines){
+  const [a,b1,c]=line;
+  if(b[a]&&b[a]===b[b1]&&b[a]===b[c])return b[a];
+ }
+ return b.every(Boolean)?"D":null;
+}
+
+function playCell(i){
+ if(finished||aiThinking||ttt[i])return;
+ if(document.getElementById("gameMode").value==="ai"&&turn==="O")return;
+ makeMove(i);
+}
+
+function makeMove(i){
+ if(ttt[i]||finished)return;
+ ttt[i]=turn;
+ const result=winner(ttt);
+ if(result){
+  finishTTT(result);
+  return;
+ }
+
+ turn=turn==="X"?"O":"X";
+ drawTTT();
+
+ if(document.getElementById("gameMode").value==="ai"&&turn==="O"){
+  aiThinking=true;
+  drawTTT();
+  message("🤖 AI is thinking...");
+  aiTimeout=setTimeout(aiMove,450);
+ }else{
+  message("Player "+turn+"'s turn");
+ }
+}
+
+function finishTTT(result){
+ finished=true;aiThinking=false;
+ if(result==="D"){
+  scores.D++;
+  message("🤝 It's a Draw!");
+ }else{
+  scores[result]++;
+  const mode=document.getElementById("gameMode").value;
+  if(mode==="ai"&&result==="O")message("🤖 AI Wins!");
+  else if(mode==="ai")message("🎉 You Win!");
+  else message("🏆 Player "+result+" Wins!");
+ }
+ drawTTT();
+}
+
+function aiMove(){
+ if(finished||document.getElementById("gameMode").value!=="ai")return;
+
+ const level=document.getElementById("difficulty").value;
+ let move;
+
+ if(level==="easy"){
+  move=randomMove(ttt);
+ }else if(level==="medium"){
+  move=winningMove(ttt,"O");
+  if(move===undefined)move=winningMove(ttt,"X");
+  if(move===undefined)move=randomMove(ttt);
+ }else{
+  move=bestMove(ttt);
+ }
+
+ aiThinking=false;
+ if(move!==undefined)makeMove(move);
+}
+
+function randomMove(b){
+ const available=b.map((v,i)=>v===""?i:-1).filter(i=>i!==-1);
+ return available[Math.floor(Math.random()*available.length)];
+}
+
+function winningMove(b,player){
+ for(let i=0;i<9;i++){
+  if(b[i]===""){
+   const test=[...b];test[i]=player;
+   if(winner(test)===player)return i;
+  }
+ }
+}
+
+function bestMove(b){
+ let best=-Infinity,move;
+ for(let i=0;i<9;i++){
+  if(b[i]===""){
+   b[i]="O";
+   let value=minimax(b,0,false);
+   b[i]="";
+   if(value>best){best=value;move=i;}
+  }
+ }
+ return move;
+}
+
+function minimax(b,depth,isMax){
+ const result=winner(b);
+ if(result==="O")return 10-depth;
+ if(result==="X")return depth-10;
+ if(result==="D")return 0;
+
+ if(isMax){
+  let best=-Infinity;
+  for(let i=0;i<9;i++){
+   if(b[i]===""){
+    b[i]="O";
+    best=Math.max(best,minimax(b,depth+1,false));
+    b[i]="";
+   }
+  }
+  return best;
+ }else{
+  let best=Infinity;
+  for(let i=0;i<9;i++){
+   if(b[i]===""){
+    b[i]="X";
+    best=Math.min(best,minimax(b,depth+1,true));
+    b[i]="";
+   }
+  }
+  return best;
+ }
+}
+
+function resetScores(){
+ scores={X:0,O:0,D:0};
+ newTTT();
+}
+
+newTTT();
+restartSnake();
 
 </script>
-
 </body>
-  </html>
-  
+    </html>
