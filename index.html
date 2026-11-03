@@ -101,6 +101,55 @@ nav a:last-child {
   border-color: #00cfff;
   box-shadow: 0 0 8px #00cfff, 0 0 18px #00cfff;
 }
+     /* GAMING CATEGORIES */
+.category-section {
+  padding: 25px 20px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.category-card {
+  background: #111329;
+  border: 1px solid #7043aa;
+  border-radius: 16px;
+  padding: 20px 10px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 0 10px rgba(150,0,255,0.2);
+}
+
+.category-card .cat-icon {
+  font-size: 32px;
+}
+
+.category-card h3 {
+  margin: 10px 0 0;
+  font-size: 16px;
+}
+     .game-search {
+  margin: 20px 0;
+}
+
+.game-search input {
+  width: 100%;
+  padding: 16px;
+  background: #111329;
+  color: white;
+  border: 2px solid #7043aa;
+  border-radius: 15px;
+  outline: none;
+  font-size: 15px;
+  box-shadow: 0 0 12px #7043aa;
+}
+
+.game-search input:focus {
+  border-color: #00cfff;
+  box-shadow: 0 0 15px #00cfff;
+}
 </style>
 </head>
 <body>
@@ -110,7 +159,13 @@ nav a:last-child {
  </div>
  <nav><a href="#" onclick="home()">Home</a><a href="#games" onclick="home()">Games</a></nav>
 </header>
-
+<div class="game-search">
+  <input
+    type="text"
+    id="gameSearch"
+    placeholder="🔍 Search your favourite games..."
+    onkeyup="searchGames()">
+</div>
 <div id="homePage">
  <div class="hero">
   <video autoplay muted loop playsinline
@@ -123,8 +178,52 @@ nav a:last-child {
     🎮 EXPLORE GAMES
 </>
  </div>
- <section id="games">
+ 
+<section class="category-section">
+  <h2>🎯 Browse Categories</h2>
+<button onclick="filterByCategory('all')"
+style="margin:15px 0;padding:12px 25px;background:#111329;color:white;border:2px solid #00cfff;border-radius:12px;box-shadow:0 0 12px #00cfff;">
+🎮 ALL GAMES
+</button>
+  <div class="category-grid">
+
+    <div class="category-card" onclick="filterByCategory('arcade')">
+      <div class="cat-icon">🎮</div>
+      <h3>Arcade</h3>
+    </div>
+
+    <div class="category-card" onclick="filterByCategory('puzzle')">
+      <div class="cat-icon">🧩</div>
+      <h3>Puzzle</h3>
+    </div>
+
+    <div class="category-card" onclick="filterByCategory('racing')">
+      <div class="cat-icon">🏎️</div>
+      <h3>Racing</h3>
+    </div>
+
+    <div class="category-card" onclick="filterByCategory('action')">
+      <div class="cat-icon">⚔️</div>
+      <h3>Action</h3>
+    </div>
+
+    <div class="category-card" onclick="filterByCategory('sports')">
+      <div class="cat-icon">⚽</div>
+      <h3>Sports</h3>
+    </div>
+
+    <div class="category-card" onclick="filterByCategory('strategy')">
+      <div class="cat-icon">🧠</div>
+      <h3>Strategy</h3>
+    </div>
+
+  </div>
+</section>
+
+  <section id="games">
   <h2>🔥 Our Games</h2>
+    hGames()">
+    </div>
   <div class="games">
    <div class="card"><div class="game-icon">🐍</div><h3>Snake Game</h3><p>Eat. Grow. Survive!</p><button type="button" class="play-now" data-game="snakePage">PLAY NOW</button></div>
    <div class="card"><div class="game-icon">❌⭕</div><h3>Tic Tac Toe</h3><p>Challenge our AI!</p><button type="button" class="play-now" data-game="tttPage">PLAY NOW</button></div>
@@ -578,6 +677,133 @@ document.addEventListener("DOMContentLoaded", function(){
   });
  });
 });
+</script>
+
+<style>
+/* PREMIUM BOTTOM NAVIGATION */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #101020;
+  border-top: 1px solid #7043aa;
+  padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
+  z-index: 9999;
+  box-shadow: 0 -3px 18px rgba(150,0,255,0.25);
+}
+
+.bottom-nav button {
+  background: transparent !important;
+  color: #aaa !important;
+  border: none !important;
+  padding: 7px 5px !important;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.bottom-nav button span {
+  font-size: 21px;
+}
+
+.bottom-nav button.active {
+  color: #d946ff !important;
+  text-shadow: 0 0 10px #d946ff;
+}
+
+body {
+  padding-bottom: 75px;
+}
+</style>
+
+<div class="bottom-nav">
+  <button class="active" onclick="navTo('home')">
+    <span>⌂</span>Home
+  </button>
+  <button onclick="navTo('games')">
+    <span>🎮</span>Games
+  </button>
+  <button onclick="navTo('categories')">
+    <span>▦</span>Categories
+  </button>
+  <button onclick="navTo('about')">
+    <span>👤</span>About
+  </button>
+</div>
+
+<script>
+function navTo(page) {
+  if (page === 'home') {
+    home();
+    window.scrollTo(0, 0);
+  }
+
+  if (page === 'games') {
+    home();
+    document.getElementById('games')
+      .scrollIntoView({behavior:'smooth'});
+  }
+
+  if (page === 'categories') {
+    home();
+    document.querySelector('.category-section')
+      ?.scrollIntoView({behavior:'smooth'});
+  }
+
+  if (page === 'about') {
+    home();
+    const sections = document.querySelectorAll('section');
+    const about = [...sections].find(s =>
+      s.innerText.includes('About GAMES FOR U')
+    );
+    about?.scrollIntoView({behavior:'smooth'});
+  }
+
+  document.querySelectorAll('.bottom-nav button')
+    .forEach(b => b.classList.remove('active'));
+
+  event.currentTarget.classList.add('active');
+}
+</script>
+
+<script>
+function searchGames() {
+  const input = document.getElementById("gameSearch");
+  const query = input.value.toLowerCase();
+
+  document.querySelectorAll(".games .card").forEach(card => {
+    const name = card.innerText.toLowerCase();
+    card.style.display = name.includes(query) ? "" : "none";
+  });
+}
+  function filterByCategory(category) {
+  const rules = {
+    arcade: ["snake"],
+    puzzle: ["tic tac toe"],
+    racing: ["car racing"],
+    action: ["space shooter"],
+    sports: [],
+    strategy: []
+  };
+
+  document.querySelectorAll(".games .card").forEach(card => {
+    const name = card.innerText.toLowerCase();
+    card.style.display = category === "all" ||
+  rules[category].some(word => name.includes(word)) ? "" : "none";
+      name.includes(word)
+    ) ? "" : "none";
+  });
+
+  document.getElementById("games").scrollIntoView({
+    behavior: "smooth"
+  });
+  }
 </script>
 
 </body>
