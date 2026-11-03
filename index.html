@@ -52,7 +52,7 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
 /* SPACE SHOOTER */
 #spaceCanvas{display:block;user-select:none;-webkit-user-select:none;width:min(92vw,360px);height:auto;aspect-ratio:360/520;margin:15px auto;background:#050817;border:2px solid #9655ff;border-radius:14px;touch-action:none}
 .space-controls{display:flex;justify-content:center;align-items:center;gap:12px;margin:18px auto;flex-wrap:wrap}
- .space-controls button{min-width:85px;min-height:58px;font-size:20px;background:#302052;touch-action:none;user-select:none}
+.space-controls button{min-width:85px;min-height:58px;font-size:20px;background:#302052;touch-action:none;user-select:none}
 .space-controls .fire{background:#a52d68;min-width:110px}
 .space-info{display:flex;justify-content:center;flex-wrap:wrap;gap:20px;margin:12px}
 .space-info strong{color:#c39aff}
@@ -88,7 +88,7 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
    <div class="card"><div class="game-icon">🏎️</div><h3>Car Racing</h3><p>Dodge traffic. Race for the high score!</p><button type="button" class="play-now" data-game="carPage">PLAY NOW</button></div>
   </div>
  </section>
- <section><h2>About SC GAMEZONE</h2><p>Your gaming world. Built with creativity and AI.</p></section>
+  <section><h2>About SC GAMEZONE</h2><p>Your gaming world. Built with creativity and AI.</p></section>
 </div>
 
 <!-- SNAKE GAME -->
@@ -113,7 +113,7 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
  <div class="ttt-settings">
   <select id="gameMode" onchange="newTTT()"><option value="ai">🤖 Player vs AI</option><option value="pvp">👥 Player vs Player</option></select>
   <select id="difficulty"><option value="easy">Easy AI</option><option value="medium">Medium AI</option><option value="hard">Hard AI</option></select>
-  </div>
+ </div>
  <div class="score-box"><div>❌ Player X<br><strong id="xScore">0</strong></div><div>⭕ Player O / AI<br><strong id="oScore">0</strong></div><div>Draws<br><strong id="drawScore">0</strong></div></div>
  <h3 id="tttMessage">Player X's turn</h3>
  <div class="board" id="board">
@@ -166,7 +166,6 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
 </div>
 
 <footer>© 2026 SC GAMEZONE | Created By You ❤️</footer>
-
 <script>
 // FULLSCREEN: use native fullscreen when supported, with a CSS fallback
 function toggleGameFullscreen(btn){
@@ -231,12 +230,12 @@ function drawSnake(){
  sx.fillStyle="#ff477e";sx.beginPath();sx.arc(food.x*18+9,food.y*18+9,7,0,Math.PI*2);sx.fill();
 }
 function startSnake(){if(snakeRunning)return;if(snakeOver)restartSnake();snakeRunning=true;document.getElementById("snakeMessage").textContent="Game Started!";snakeTimer=setInterval(updateSnake,150);}
- function pauseSnake(){if(!snakeRunning)return;stopSnake();document.getElementById("snakeMessage").textContent="Game Paused!";}
+function pauseSnake(){if(!snakeRunning)return;stopSnake();document.getElementById("snakeMessage").textContent="Game Paused!";}
 function snakeDirection(d){const opposite={UP:"DOWN",DOWN:"UP",LEFT:"RIGHT",RIGHT:"LEFT"};if(d!==opposite[dir])nextDir=d;}
 function updateSnake(){
  dir=nextDir;let h={...snake[0]};if(dir==="UP")h.y--;if(dir==="DOWN")h.y++;if(dir==="LEFT")h.x--;if(dir==="RIGHT")h.x++;
  let eating=h.x===food.x&&h.y===food.y;let body=eating?snake:snake.slice(0,-1);
- if(h.x<0h.x>=20h.y<0h.y>=20body.some(p=>p.x===h.x&&p.y===h.y)){stopSnake();snakeOver=true;document.getElementById("snakeMessage").textContent="GAME OVER! Score: "+snakePoints;return;}
+ if(h.x<0||h.x>=20||h.y<0||h.y>=20||body.some(p=>p.x===h.x&&p.y===h.y)){stopSnake();snakeOver=true;document.getElementById("snakeMessage").textContent="GAME OVER! Score: "+snakePoints;return;}
  snake.unshift(h);
  if(eating){snakePoints+=10;document.getElementById("snakeScore").textContent=snakePoints;if(snakePoints>snakeRecord){snakeRecord=snakePoints;localStorage.setItem("scSnakeBest",snakeRecord);document.getElementById("snakeBest").textContent=snakeRecord;}makeFood();}else snake.pop();
  drawSnake();
@@ -270,14 +269,14 @@ function newTTT(){
  document.getElementById("difficulty").disabled=document.getElementById("gameMode").value==="pvp";
  drawTTT();message("Player X's turn");
 }
-function drawTTT(){cells.forEach((c,i)=>{c.textContent=ttt[i];c.style.color=ttt[i]==="X"?"#bd91ff":"#55e6d0";c.disabled=finishedaiThinkingttt[i]!=="";});document.getElementById("xScore").textContent=scores.X;document.getElementById("oScore").textContent=scores.O;document.getElementById("drawScore").textContent=scores.D;}
+function drawTTT(){cells.forEach((c,i)=>{c.textContent=ttt[i];c.style.color=ttt[i]==="X"?"#bd91ff":"#55e6d0";c.disabled=finished||aiThinking||ttt[i]!=="";});document.getElementById("xScore").textContent=scores.X;document.getElementById("oScore").textContent=scores.O;document.getElementById("drawScore").textContent=scores.D;}
 function message(txt){document.getElementById("tttMessage").textContent=txt;}
 function winner(b){
  const lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
  for(const line of lines){const [a,b1,c]=line;if(b[a]&&b[a]===b[b1]&&b[a]===b[c])return b[a];}
  return b.every(Boolean)?"D":null;
 }
-function playCell(i){if(finishedaiThinkingttt[i])return;if(document.getElementById("gameMode").value==="ai"&&turn==="O")return;makeMove(i);}
+function playCell(i){if(finished||aiThinking||ttt[i])return;if(document.getElementById("gameMode").value==="ai"&&turn==="O")return;makeMove(i);}
 function makeMove(i){
  if(ttt[i]||finished)return;ttt[i]=turn;const result=winner(ttt);if(result){finishTTT(result);return;}
  turn=turn==="X"?"O":"X";drawTTT();
@@ -352,7 +351,7 @@ function drawCar(){
  traffic.forEach(v=>drawCarShape(v.x,v.y,v.color,false));
  if(carInvincible<=0||Math.floor(carInvincible*10)%2===0)drawCarShape(playerCar.x,playerCar.y,"#19c7ff",true);
  if(carOver){cr.fillStyle="rgba(0,0,0,.72)";cr.fillRect(65,0,230,520);cr.textAlign="center";cr.fillStyle="#ff6688";cr.font="bold 29px Arial";cr.fillText("GAME OVER",180,240);cr.fillStyle="white";cr.font="18px Arial";cr.fillText("Score: "+carScore,180,275);cr.font="14px Arial";cr.fillText("Press RESTART to race again",180,308);}
- }
+}
 function drawCarShape(x,y,color,isPlayer){
  cr.save();cr.translate(x,y);cr.fillStyle="rgba(0,0,0,.3)";cr.fillRect(-19, -29,42,68);
  cr.fillStyle="#10131b";cr.fillRect(-23,-24,7,18);cr.fillRect(16,-24,7,18);cr.fillRect(-23,10,7,18);cr.fillRect(16,10,7,18);
@@ -364,15 +363,19 @@ function drawCarShape(x,y,color,isPlayer){
 }
 document.addEventListener("keydown",e=>{if(document.getElementById("carPage").style.display!=="block")return;if(e.key==="ArrowLeft"){carControls.left=true;e.preventDefault();}if(e.key==="ArrowRight"){carControls.right=true;e.preventDefault();}});
 document.addEventListener("keyup",e=>{if(e.key==="ArrowLeft")carControls.left=false;if(e.key==="ArrowRight")carControls.right=false;});
-// Touch and drag on the road to steer the car
-function steerCarFromTouch(e){const r=carCanvas.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*360;carControls.left=x<180;carControls.right=x>=180;}
-carCanvas.addEventListener("pointerdown",e=>{if(e.pointerType==="touch")e.preventDefault();carCanvas.setPointerCapture(e.pointerId);steerCarFromTouch(e);});
-carCanvas.addEventListener("pointermove",e=>{if(e.buttons||e.pressure>0)steerCarFromTouch(e);});
-function stopCarTouch(){carControls.left=false;carControls.right=false;}
-carCanvas.addEventListener("pointerup",stopCarTouch);carCanvas.addEventListener("pointercancel",stopCarTouch);
+// Touch-drag steering: move your finger left/right directly on the road
+let carPointerActive=false;
+function steerCarFromPointer(e){
+ const r=carCanvas.getBoundingClientRect();
+ const ratio=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+ if(playerCar)playerCar.x=82+ratio*196;
+}
+carCanvas.addEventListener("pointerdown",e=>{carPointerActive=true;try{carCanvas.setPointerCapture(e.pointerId);}catch(_){}steerCarFromPointer(e);e.preventDefault();});
+carCanvas.addEventListener("pointermove",e=>{if(carPointerActive){steerCarFromPointer(e);e.preventDefault();}});
+function endCarPointer(){carPointerActive=false;}
+carCanvas.addEventListener("pointerup",endCarPointer);carCanvas.addEventListener("pointercancel",endCarPointer);carCanvas.addEventListener("lostpointercapture",endCarPointer);
 carRestart();
-
-// SPACE SHOOTER
+ // SPACE SHOOTER
 const spaceCanvas=document.getElementById("spaceCanvas");
 const sp=spaceCanvas.getContext("2d");
 let spacePlayer,spaceBullets=[],spaceEnemies=[],spaceParticles=[],spaceStars=[];
@@ -384,6 +387,17 @@ document.getElementById("spaceBest").textContent=spaceBest;
 let spaceControls={left:false,right:false,fire:false};
 
 function setSpaceControl(name,value){spaceControls[name]=value;}
+// Drag anywhere on the playfield to steer; keep touching to fire continuously
+let spacePointerActive=false;
+function moveSpaceShipFromPointer(e){
+ const r=spaceCanvas.getBoundingClientRect();
+ const ratio=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+ if(spacePlayer)spacePlayer.x=20+ratio*320;
+}
+spaceCanvas.addEventListener("pointerdown",e=>{spacePointerActive=true;spaceControls.fire=true;try{spaceCanvas.setPointerCapture(e.pointerId);}catch(_){}moveSpaceShipFromPointer(e);e.preventDefault();});
+spaceCanvas.addEventListener("pointermove",e=>{if(spacePointerActive){moveSpaceShipFromPointer(e);e.preventDefault();}});
+function endSpacePointer(){spacePointerActive=false;spaceControls.fire=false;}
+spaceCanvas.addEventListener("pointerup",endSpacePointer);spaceCanvas.addEventListener("pointercancel",endSpacePointer);spaceCanvas.addEventListener("lostpointercapture",endSpacePointer);
 function spaceSound(freq=500,duration=0.08){
  if(!spaceSoundOn)return;
  try{
@@ -407,7 +421,7 @@ function spaceRestart(){
  updateSpaceStats();document.getElementById("spaceMessage").textContent="Press START to defend the galaxy!";drawSpace();
 }
 function updateSpaceStats(){document.getElementById("spaceScore").textContent=spaceScore;document.getElementById("spaceLives").textContent=spaceLives;document.getElementById("spaceLevel").textContent=spaceLevel;document.getElementById("spaceBest").textContent=spaceBest;}
- function spaceStopLoop(){spaceRunning=false;if(spaceFrame!==null){cancelAnimationFrame(spaceFrame);spaceFrame=null;}}
+function spaceStopLoop(){spaceRunning=false;if(spaceFrame!==null){cancelAnimationFrame(spaceFrame);spaceFrame=null;}}
 function stopSpace(){spaceStopLoop();spaceControls={left:false,right:false,fire:false};}
 function spaceStart(){
  if(spaceRunning)return;if(spaceOver)spaceRestart();
@@ -493,13 +507,31 @@ document.addEventListener("keyup",e=>{
  if(e.key==="ArrowRight")spaceControls.right=false;
  if(e.code==="Space")spaceControls.fire=false;
 });
-// Touch and drag on the game screen to move; holding a finger also fires
-function steerSpaceFromTouch(e){const r=spaceCanvas.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*360;spacePlayer.x=Math.max(20,Math.min(340,x));}
-spaceCanvas.addEventListener("pointerdown",e=>{e.preventDefault();spaceCanvas.setPointerCapture(e.pointerId);spaceControls.fire=true;steerSpaceFromTouch(e);});
-spaceCanvas.addEventListener("pointermove",e=>{if(e.buttons||e.pressure>0)steerSpaceFromTouch(e);});
-function stopSpaceTouch(){spaceControls.fire=false;}
-spaceCanvas.addEventListener("pointerup",stopSpaceTouch);spaceCanvas.addEventListener("pointercancel",stopSpaceTouch);
 spaceRestart();
 </script>
+
+<script>
+// Reliable PLAY NOW navigation: independent of inline button handlers.
+document.addEventListener("DOMContentLoaded", function(){
+ document.querySelectorAll(".play-now[data-game]").forEach(function(button){
+  button.addEventListener("click", function(){
+   const id=button.getAttribute("data-game");
+   const page=document.getElementById(id);
+   if(!page)return;
+   document.getElementById("homePage").style.display="none";
+   document.querySelectorAll(".game-page").forEach(function(item){item.style.display="none";});
+   page.style.display="block";
+   window.scrollTo(0,0);
+   try {
+    if(id==="snakePage" && typeof restartSnake==="function") restartSnake();
+    if(id==="tttPage" && typeof newTTT==="function") newTTT();
+    if(id==="spacePage" && typeof spaceRestart==="function") spaceRestart();
+    if(id==="carPage" && typeof carRestart==="function") carRestart();
+   } catch(error) { console.error("Game initialization:", error); }
+  });
+ });
+});
+</script>
+
 </body>
 </html>
