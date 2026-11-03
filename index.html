@@ -10,7 +10,15 @@
 body{margin:0;background:#090914;color:white;font-family:Arial,sans-serif}
 header{padding:18px 6%;background:#141426;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
 .logo{font-size:23px;font-weight:bold;color:#b17aff;margin-left:-40px}
-nav a{color:white;text-decoration:none;margin-left:15px}
+nav a{
+color:white;
+text-decoration:none;
+margin-left:15px;
+padding:10px 16px;
+border:2px solid #00cfff;
+border-radius:25px;
+box-shadow:0 0 8px #00cfff,0 0 15px #00cfff;
+}
 .hero{text-align:center;padding:65px 15px;background:linear-gradient(135deg,#29134d,#102449,#090914)}
 .hero h1{font-size:36px}
 .hero span{color:#b17aff}
@@ -66,6 +74,22 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
 .car-controls button{min-width:105px;min-height:60px;font-size:24px;background:#302052;touch-action:none;user-select:none}
 .car-message{color:#e2caff;min-height:25px}
 @media(max-width:500px){.hero h1{font-size:28px}nav a{font-size:13px;margin-left:8px}}
+  .play-now {
+  background: #101329 !important;
+  color: white !important;
+  border: 2px solid #d946ff !important;
+  border-radius: 30px !important;
+  padding: 12px 28px !important;
+  box-shadow: 0 0 8px #d946ff, 0 0 15px #00cfff;
+  }
+  .explore-btn {
+  border: 2px solid #d946ff !important;
+  border-radius: 30px !important;
+  color: white !important;
+  box-shadow: 0 0 8px #d946ff,
+              0 0 15px #00cfff;
+  padding: 14px 28px;
+  }
 </style>
 </head>
 <body>
@@ -83,10 +107,10 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
     <source src="gaming.mp4" type="video/mp4">
   </video>
 
-<button
+<button class="explore-btn"
   style="margin-top: 20px;"onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">
     🎮 EXPLORE GAMES
-</button>
+</>
  </div>
  <section id="games">
   <h2>🔥 Our Games</h2>
