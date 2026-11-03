@@ -289,7 +289,8 @@ function updateCar(dt){
  }
  if(carInvincible>0)carInvincible-=dt;
 }
-function carGameOver(){carStop();carOver=true;document.getElementById("carMessage").textContent="🏁 GAME OVER! Score: "+carScore;drawCar();}
+function carGameOver(){carStop();carOver=true;document.getElementById("carMessage").textContent="🏁 GAME OVER! Score:
+ "+carScore;drawCar();}
 function drawCar(){
  cr.clearRect(0,0,360,520);cr.fillStyle="#237a43";cr.fillRect(0,0,360,520);cr.fillStyle="#343943";cr.fillRect(65,0,230,520);
  cr.fillStyle="#f4f0d8";cr.fillRect(59,0,6,520);cr.fillRect(295,0,6,520);
@@ -309,6 +310,12 @@ function drawCarShape(x,y,color,isPlayer){
 }
 document.addEventListener("keydown",e=>{if(document.getElementById("carPage").style.display!=="block")return;if(e.key==="ArrowLeft"){carControls.left=true;e.preventDefault();}if(e.key==="ArrowRight"){carControls.right=true;e.preventDefault();}});
 document.addEventListener("keyup",e=>{if(e.key==="ArrowLeft")carControls.left=false;if(e.key==="ArrowRight")carControls.right=false;});
+// Touch and drag on the road to steer the car
+function steerCarFromTouch(e){const r=carCanvas.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*360;carControls.left=x<180;carControls.right=x>=180;}
+carCanvas.addEventListener("pointerdown",e=>{if(e.pointerType==="touch")e.preventDefault();carCanvas.setPointerCapture(e.pointerId);steerCarFromTouch(e);});
+carCanvas.addEventListener("pointermove",e=>{if(e.buttons||e.pressure>0)steerCarFromTouch(e);});
+function stopCarTouch(){carControls.left=false;carControls.right=false;}
+carCanvas.addEventListener("pointerup",stopCarTouch);carCanvas.addEventListener("pointercancel",stopCarTouch);
 carRestart();
 
 // SPACE SHOOTER
@@ -357,8 +364,7 @@ function spaceStart(){
 function spacePause(){
  if(!spaceRunning)return;spaceStopLoop();spaceControls={left:false,right:false,fire:false};
  document.getElementById("spaceMessage").textContent="⏸ GAME PAUSED";
-}
-function spaceLoop(timestamp){
+  }function spaceLoop(timestamp){
  if(!spaceRunning)return;
  const dt=spaceLastTime?Math.min((timestamp-spaceLastTime)/1000,0.04):0;spaceLastTime=timestamp;
  updateSpace(dt);drawSpace();if(spaceRunning)spaceFrame=requestAnimationFrame(spaceLoop);
@@ -432,7 +438,14 @@ document.addEventListener("keyup",e=>{
  if(e.key==="ArrowRight")spaceControls.right=false;
  if(e.code==="Space")spaceControls.fire=false;
 });
+// Touch and drag on the game screen to move; holding a finger also fires
+function steerSpaceFromTouch(e){const r=spaceCanvas.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*360;spacePlayer.x=Math.max(20,Math.min(340,x));}
+spaceCanvas.addEventListener("pointerdown",e=>{e.preventDefault();spaceCanvas.setPointerCapture(e.pointerId);spaceControls.fire=true;steerSpaceFromTouch(e);});
+spaceCanvas.addEventListener("pointermove",e=>{if(e.buttons||e.pressure>0)steerSpaceFromTouch(e);});
+function stopSpaceTouch(){spaceControls.fire=false;}
+spaceCanvas.addEventListener("pointerup",stopSpaceTouch);spaceCanvas.addEventListener("pointercancel",stopSpaceTouch);
 spaceRestart();
 </script>
 </body>
 </html>
+                       
