@@ -39,7 +39,7 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
 .score-box{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin:15px}
 .score-box div{background:#19192e;border:1px solid #34345a;padding:12px 20px;border-radius:12px}
 .small{font-size:13px;color:#aaa}
-/* SPACE SHOOTER */
+ /* SPACE SHOOTER */
 #spaceCanvas{display:block;width:min(92vw,360px);height:auto;aspect-ratio:360/520;margin:15px auto;background:#050817;border:2px solid #9655ff;border-radius:14px;touch-action:none}
 .space-controls{display:flex;justify-content:center;align-items:center;gap:12px;margin:18px auto;flex-wrap:wrap}
 .space-controls button{min-width:85px;min-height:58px;font-size:20px;background:#302052;touch-action:none;user-select:none}
@@ -55,6 +55,19 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
 .car-controls button{min-width:105px;min-height:60px;font-size:24px;background:#302052;touch-action:none;user-select:none}
 .car-message{color:#e2caff;min-height:25px}
 @media(max-width:500px){.hero h1{font-size:28px}nav a{font-size:13px;margin-left:8px}}
+
+/* IMMERSIVE GAME VIEW */
+.game-page.play-fullscreen{display:block!important;position:fixed;inset:0;z-index:9999;width:100%;height:100vh;height:100dvh;overflow-y:auto;overflow-x:hidden;background:#090914;padding:10px 10px 24px;}
+.game-page.play-fullscreen h2{margin:8px 0;font-size:clamp(20px,4vh,30px)}
+.game-page.play-fullscreen p{margin:6px auto}
+.game-page.play-fullscreen .game-fullscreen-btn{position:sticky;top:4px;z-index:2;float:right;padding:9px 12px;font-size:13px;background:#4b3475}
+.game-page.play-fullscreen #snakeCanvas{width:min(78vw,58vh,430px);height:min(78vw,58vh,430px);margin:8px auto}
+.game-page.play-fullscreen #spaceCanvas{width:auto;height:min(61vh,650px);max-width:90vw;aspect-ratio:360/520;margin:8px auto}
+.game-page.play-fullscreen #carCanvas{width:auto;height:min(64vh,700px);max-width:92vw;margin:8px auto}
+.game-page.play-fullscreen .controls,.game-page.play-fullscreen .space-controls,.game-page.play-fullscreen .car-controls{margin:8px auto;gap:10px}
+.game-page.play-fullscreen .controls button,.game-page.play-fullscreen .space-controls button,.game-page.play-fullscreen .car-controls button{min-height:48px}
+.game-page.play-fullscreen .back{margin:8px auto}
+
 </style>
 </head>
 <body>
@@ -83,20 +96,19 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
 
 <!-- SNAKE GAME -->
 <div id="snakePage" class="game-page">
+ <button class="game-fullscreen-btn" onclick="toggleGameFullscreen(this)">⛶ FULL SCREEN</button>
  <h2>🐍 SNAKE GAME</h2><p>Eat the food and beat your high score!</p>
  <div class="stats"><div>Score: <span id="snakeScore">0</span></div><div>Best: <span id="snakeBest">0</span></div></div>
  <canvas id="snakeCanvas" width="360" height="360"></canvas>
  <h3 id="snakeMessage">Press START to play!</h3>
  <button onclick="startSnake()">START</button> <button onclick="pauseSnake()">PAUSE</button> <button onclick="restartSnake()">RESTART</button>
- <div class="controls">
-  <div></div><button onclick="snakeDirection('UP')">⬆️</button><div></div>
-  <button onclick="snakeDirection('LEFT')">⬅️</button><button onclick="snakeDirection('DOWN')">⬇️</button><button onclick="snakeDirection('RIGHT')">➡️</button>
- </div>
+ <p class="small">Touch and swipe on the game area to change direction.</p>
  <button class="back" onclick="home()">🏠 BACK TO HOME</button>
 </div>
 
 <!-- TIC TAC TOE -->
 <div id="tttPage" class="game-page">
+ <button class="game-fullscreen-btn" onclick="toggleGameFullscreen(this)">⛶ FULL SCREEN</button>
  <h2>❌ TIC TAC TOE ⭕</h2><p>Choose your game mode and challenge yourself!</p>
  <div class="ttt-settings">
   <select id="gameMode" onchange="newTTT()"><option value="ai">🤖 Player vs AI</option><option value="pvp">👥 Player vs Player</option></select>
@@ -113,24 +125,21 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
  <p class="small">Player X always starts. In AI mode, you play X.</p>
  <button class="back" onclick="home()">🏠 BACK TO HOME</button>
 </div>
-
-<!-- CAR RACING -->
+ !-- CAR RACING -->
 <div id="carPage" class="game-page">
+ <button class="game-fullscreen-btn" onclick="toggleGameFullscreen(this)">⛶ FULL SCREEN</button>
  <h2>🏎️ CAR RACING</h2><p>Dodge the traffic and survive as long as you can!</p>
  <div class="car-info"><div>Score: <strong id="carScore">0</strong></div><div>Best: <strong id="carBest">0</strong></div><div>Speed: <strong id="carSpeed">1</strong></div><div>Lives: <strong id="carLives">3</strong></div></div>
  <canvas id="carCanvas" width="360" height="520"></canvas>
  <h3 id="carMessage" class="car-message">Press START to race!</h3>
  <button onclick="carStart()">▶ START / RESUME</button> <button onclick="carPause()">⏸ PAUSE</button> <button onclick="carRestart()">🔄 RESTART</button>
- <div class="car-controls">
-  <button onpointerdown="setCarControl('left',true)" onpointerup="setCarControl('left',false)" onpointerleave="setCarControl('left',false)" onpointercancel="setCarControl('left',false)">⬅️ LEFT</button>
-  <button onpointerdown="setCarControl('right',true)" onpointerup="setCarControl('right',false)" onpointerleave="setCarControl('right',false)" onpointercancel="setCarControl('right',false)">RIGHT ➡️</button>
- </div>
- <p class="small">Keyboard: use ← and → arrow keys to steer.</p>
+ <p class="small">Touch and drag left or right on the road to steer.</p>
  <button class="back" onclick="home()">🏠 BACK TO HOME</button>
 </div>
 
 <!-- SPACE SHOOTER -->
 <div id="spacePage" class="game-page">
+ <button class="game-fullscreen-btn" onclick="toggleGameFullscreen(this)">⛶ FULL SCREEN</button>
  <h2>🚀 SPACE SHOOTER</h2><p>Destroy enemy ships and protect the galaxy!</p>
  <div class="space-info">
   <div>Score: <strong id="spaceScore">0</strong></div><div>Best: <strong id="spaceBest">0</strong></div>
@@ -139,11 +148,7 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
  <canvas id="spaceCanvas" width="360" height="520"></canvas>
  <h3 id="spaceMessage" class="space-message">Press START to begin!</h3>
  <button onclick="spaceStart()">▶ START / RESUME</button> <button onclick="spacePause()">⏸ PAUSE</button> <button onclick="spaceRestart()">🔄 RESTART</button>
- <div class="space-controls">
-  <button onpointerdown="setSpaceControl('left',true)" onpointerup="setSpaceControl('left',false)" onpointerleave="setSpaceControl('left',false)" onpointercancel="setSpaceControl('left',false)">⬅️</button>
-  <button class="fire" onpointerdown="setSpaceControl('fire',true)" onpointerup="setSpaceControl('fire',false)" onpointerleave="setSpaceControl('fire',false)" onpointercancel="setSpaceControl('fire',false)">🔥 FIRE</button>
-  <button onpointerdown="setSpaceControl('right',true)" onpointerup="setSpaceControl('right',false)" onpointerleave="setSpaceControl('right',false)" onpointercancel="setSpaceControl('right',false)">➡️</button>
- </div>
+ <p class="small">Touch and drag to move. Keep your finger on the screen to shoot.</p>
  <button onclick="toggleSpaceSound()" id="spaceSoundButton">🔊 SOUND ON</button>
  <p class="small">Keyboard: ← → to move and SPACE to shoot.</p>
  <button class="back" onclick="home()">🏠 BACK TO HOME</button>
@@ -152,6 +157,29 @@ footer{background:#141426;text-align:center;padding:22px;color:#aaa}
 <footer>© 2026 SC GAMEZONE | Created By You ❤️</footer>
 
 <script>
+// IMMERSIVE FULLSCREEN CONTROLS
+function toggleGameFullscreen(button){
+ const page=button.closest('.game-page');
+ if(!page)return;
+ const entering=!page.classList.contains('play-fullscreen');
+ if(entering){
+  page.classList.add('play-fullscreen');
+  button.textContent='✕ EXIT FULL SCREEN';
+  if(page.requestFullscreen){const result=page.requestFullscreen();if(result&&result.catch)result.catch(()=>{});}
+ }else{
+  page.classList.remove('play-fullscreen');
+  button.textContent='⛶ FULL SCREEN';
+  if(document.fullscreenElement&&document.exitFullscreen){const result=document.exitFullscreen();if(result&&result.catch)result.catch(()=>{});}
+ }
+ window.scrollTo(0,0);
+}
+document.addEventListener('fullscreenchange',()=>{
+ if(!document.fullscreenElement){document.querySelectorAll('.game-page.play-fullscreen').forEach(page=>{
+  page.classList.remove('play-fullscreen');
+  const b=page.querySelector('.game-fullscreen-btn');if(b)b.textContent='⛶ FULL SCREEN';
+ });}
+});
+
 // WEBSITE NAVIGATION
 function openGame(id){
  document.getElementById("homePage").style.display="none";
@@ -164,6 +192,8 @@ function openGame(id){
  if(id==="carPage")carRestart();
 }
 function home(){
+ document.querySelectorAll(".game-page.play-fullscreen").forEach(p=>p.classList.remove("play-fullscreen"));
+ if(document.fullscreenElement&&document.exitFullscreen){const r=document.exitFullscreen();if(r&&r.catch)r.catch(()=>{});}
  stopSnake();
  stopSpace();
  carStop();
@@ -204,8 +234,12 @@ function updateSnake(){
  drawSnake();
 }
 document.addEventListener("keydown",e=>{const keys={ArrowUp:"UP",ArrowDown:"DOWN",ArrowLeft:"LEFT",ArrowRight:"RIGHT"};if(document.getElementById("snakePage").style.display==="block"&&keys[e.key]){e.preventDefault();snakeDirection(keys[e.key]);}});
-
-// TIC TAC TOE
+// Swipe anywhere on the Snake board to steer
+let snakeTouchStart=null;
+sx.canvas.addEventListener("pointerdown",e=>{snakeTouchStart={x:e.clientX,y:e.clientY};});
+sx.canvas.addEventListener("pointerup",e=>{if(!snakeTouchStart)return;const dx=e.clientX-snakeTouchStart.x,dy=e.clientY-snakeTouchStart.y;if(Math.max(Math.abs(dx),Math.abs(dy))>18)snakeDirection(Math.abs(dx)>Math.abs(dy)?(dx>0?"RIGHT":"LEFT"):(dy>0?"DOWN":"UP"));snakeTouchStart=null;});
+sx.canvas.addEventListener("pointercancel",()=>snakeTouchStart=null);
+ // TIC TAC TOE
 const cells=[...document.querySelectorAll(".cell")];
 let ttt=Array(9).fill(""),turn="X",finished=false,aiThinking=false;
 let scores={X:0,O:0,D:0},aiTimeout=null;
@@ -256,8 +290,7 @@ function minimax(b,depth,isMax){
 }
 function resetScores(){scores={X:0,O:0,D:0};newTTT();}
 newTTT();restartSnake();
-
-// CAR RACING
+ // CAR RACING
 const carCanvas=document.getElementById("carCanvas");
 const cr=carCanvas.getContext("2d");
 let playerCar,traffic=[],roadMarks=[],carScore=0,carLives=3,carRunning=false,carOver=false;
@@ -289,8 +322,7 @@ function updateCar(dt){
  }
  if(carInvincible>0)carInvincible-=dt;
 }
-function carGameOver(){carStop();carOver=true;document.getElementById("carMessage").textContent="🏁 GAME OVER! Score:
- "+carScore;drawCar();}
+function carGameOver(){carStop();carOver=true;document.getElementById("carMessage").textContent="🏁 GAME OVER! Score: "+carScore;drawCar();}
 function drawCar(){
  cr.clearRect(0,0,360,520);cr.fillStyle="#237a43";cr.fillRect(0,0,360,520);cr.fillStyle="#343943";cr.fillRect(65,0,230,520);
  cr.fillStyle="#f4f0d8";cr.fillRect(59,0,6,520);cr.fillRect(295,0,6,520);
@@ -364,7 +396,8 @@ function spaceStart(){
 function spacePause(){
  if(!spaceRunning)return;spaceStopLoop();spaceControls={left:false,right:false,fire:false};
  document.getElementById("spaceMessage").textContent="⏸ GAME PAUSED";
-  }function spaceLoop(timestamp){
+}
+function spaceLoop(timestamp){
  if(!spaceRunning)return;
  const dt=spaceLastTime?Math.min((timestamp-spaceLastTime)/1000,0.04):0;spaceLastTime=timestamp;
  updateSpace(dt);drawSpace();if(spaceRunning)spaceFrame=requestAnimationFrame(spaceLoop);
@@ -448,4 +481,3 @@ spaceRestart();
 </script>
 </body>
 </html>
-                       
