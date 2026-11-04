@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "SC GAMEZONE",
-  "short_name": "SC GAMEZONE",
-  "description": "Welcome to SC GAMEZONE. Play exciting online games.",
+  "name": "GAMES FOR YOU",
+  "short_name": "GAMES4U",
+  "description": "Welcome GAMES FOR U. Play exciting online games.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
