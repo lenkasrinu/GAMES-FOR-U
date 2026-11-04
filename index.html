@@ -160,6 +160,42 @@ body.game-mode .bottom-nav {
 body.game-mode #homePage {
   display: none !important;
 }
+  /* KEEP BACK HOME BUTTON VISIBLE */
+.game-page.play-fullscreen .back {
+  position: sticky;
+  bottom: 8px;
+  z-index: 100;
+  margin: 12px auto;
+  }
+  /* PROFESSIONAL MOBILE HEADER */
+header {
+  flex-wrap: nowrap !important;
+  padding: 10px 3% !important;
+  gap: 5px !important;
+}
+
+.logo {
+  margin-left: 0 !important;
+  flex: 0 0 125px;
+}
+
+.logo img {
+  width: 125px !important;
+  max-width: 100%;
+  height: auto;
+}
+
+nav {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 4px !important;
+}
+
+nav a {
+  padding: 8px 9px !important;
+  font-size: 11px !important;
+  white-space: nowrap;
+}
 </style>
 </head>
 <body>
@@ -167,7 +203,7 @@ body.game-mode #homePage {
  <div class="logo">
     <img src="logo.png" alt="GAMES FOR YOU" style="width:190px;height:55px;object-fit:contain;">
  </div>
- <nav><a href="#" onclick="home()">Home</a><a href="#games" onclick="home()">Games</a></nav>
+ <nav><a href="#" onclick="home()">Home</a><a href="#games" onclick="home()">Games</a><a href="GAMES.apk" download class="download-apk">📥 APK</a></nav>
 </header>
 <div class="game-search">
   <input
