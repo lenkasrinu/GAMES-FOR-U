@@ -150,6 +150,16 @@ nav a:last-child {
   border-color: #00cfff;
   box-shadow: 0 0 15px #00cfff;
 }
+  /* HIDE WEBSITE WHILE PLAYING */
+body.game-mode header,
+body.game-mode .game-search,
+body.game-mode .bottom-nav {
+  display: none !important;
+}
+
+body.game-mode #homePage {
+  display: none !important;
+}
 </style>
 </head>
 <body>
@@ -225,9 +235,9 @@ style="margin:15px 0;padding:12px 25px;background:#111329;color:white;border:2px
     
   <div class="games">
    <div class="card"><div class="game-icon">🐍</div><h3>Snake Game</h3><p>Eat. Grow. Survive!</p><button type="button" class="play-now" onclick="openGame('snakePage')">PLAY NOW</button></div>
-   <div class="card"><div class="game-icon">❌⭕</div><h3>Tic Tac Toe</h3><p>Challenge our AI!</p><button type="button" class="play-now" data-game="tttPage">PLAY NOW</button></div>
-   <div class="card"><div class="game-icon">🚀</div><h3>Space Shooter</h3><p>Defend the galaxy. Destroy enemies!</p><button type="button" class="play-now" data-game="spacePage">PLAY NOW</button></div>
-   <div class="card"><div class="game-icon">🏎️</div><h3>Car Racing</h3><p>Dodge traffic. Race for the high score!</p><button type="button" class="play-now" data-game="carPage">PLAY NOW</button></div>
+   <div class="card"><div class="game-icon">❌⭕</div><h3>Tic Tac Toe</h3><p>Challenge our AI!</p><button type="button" class="play-now" onclick="openGame('tttPage')">PLAY NOW</button></div>
+   <div class="card"><div class="game-icon">🚀</div><h3>Space Shooter</h3><p>Defend the galaxy. Destroy enemies!</p><button type="button" class="play-now" onclick="openGame('spacePage')">PLAY NOW</button></div>
+   <div class="card"><div class="game-icon">🏎️</div><h3>Car Racing</h3><p>Dodge traffic. Race for the high score!</p><button type="button" class="play-now" onclick="openGame('carPage')">PLAY NOW</button></div>
   </div>
  </section>
  <section><h2>About GAMES FOR U</h2><p> THIS IS SRINU LENKA | Your gaming WORLD. BUILT WITH CREATIVITY AND AI.</p></section>
@@ -333,19 +343,30 @@ document.addEventListener("fullscreenchange",()=>{
 });
 // WEBSITE NAVIGATION
 function openGame(id){
- const selected=document.getElementById(id);
- if(!selected)return;
- document.getElementById("homePage").style.display="none";
- document.querySelectorAll(".game-page").forEach(p=>p.style.display="none");
- document.getElementById(id).style.display="block";
- window.scrollTo(0,0);
- if(id==="snakePage")restartSnake();
- if(id==="tttPage")newTTT();
- if(id==="spacePage")spaceRestart();
- if(id==="carPage")carRestart();
+  const selected = document.getElementById(id);
+  if (!selected) return;
+document.body.classList.add("game-mode");
+  document.getElementById("homePage").style.display = "none";
+  document.querySelectorAll(".game-page").forEach(p => {
+    p.style.display = "none";
+  });
+
+  selected.style.display = "block";
+  selected.classList.add("play-fullscreen");
+
+  const btn = selected.querySelector(".fullscreen-btn");
+  if (btn) btn.textContent = "✕ EXIT FULL SCREEN";
+
+  window.scrollTo(0, 0);
+
+  if (id === "snakePage") restartSnake();
+  if (id === "tttPage") newTTT();
+  if (id === "spacePage") spaceRestart();
+  if (id === "carPage") carRestart();
 }
 function home(){
  exitGameFullscreen();
+  document.body.classList.remove("game-mode");
  stopSnake();
  stopSpace();
  carStop();
